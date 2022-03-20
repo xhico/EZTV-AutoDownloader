@@ -140,4 +140,7 @@ if __name__ == '__main__':
     EMAIL_RECEIVER = get911('EMAIL_RECEIVER')
     YAGMAIL = yagmail.SMTP(EMAIL_USER, EMAIL_APPPW)
 
-    main()
+    try:
+        main()
+    except Exception as ex:
+        YAGMAIL.send(EMAIL_RECEIVER, "Error - " + os.path.basename(__file__), str(ex))
