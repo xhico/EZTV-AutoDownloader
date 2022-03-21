@@ -69,7 +69,7 @@ def getTorrents():
             # Check if torrent belong to one of the user's shows
             title = torrent["title"]
             show = isInTitle(title)
-            if show is not None and "1080" in title and "MeGusta" in title:
+            if show is not None and ("1080" in title or "720" in title) and "MeGusta" in title:
 
                 # Check if episode is newer than the last
                 season, episode = int(torrent["season"]), int(torrent["episode"])
