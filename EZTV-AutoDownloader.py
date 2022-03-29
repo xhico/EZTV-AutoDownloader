@@ -44,47 +44,28 @@ def getLastSeasonEpisode(title):
 
 def getTorrents():
     torrents = {}
-    page = 1
 
-    # Infinite Loop, until torrent date is over x minutes
-    while True:
-        checkEnd = False
-        pageURL = API_URL + "?page=" + str(page)
+    # Download JSON
+    r = requests.get(API_URL)
+    jsonTorrents = json.loads(r.text)
 
-        # Download JSON
-        r = requests.get(pageURL)
-        jsonTorrents = json.loads(r.text)
+    # Iterate over every torrent
+    for torrent in jsonTorrents["torrents"]:
+        # Check if torrent belong to one of the user's shows
+        title = torrent["title"]
+        show = isInTitle(title)
+        if show is not None and ("1080" in title or "720" in title) and ("x264" in title or "x265" in title) and "MeGusta" in title:
 
-        # Iterate over every torrent
-        for torrent in jsonTorrents["torrents"]:
-            date_released_unix = torrent["date_released_unix"]
-
-            # Check if torrent date is older than x minutes, stop
-            FROM_DATE = datetime.datetime.now() + datetime.timedelta(minutes=-30)
-            FROM_DATE = int(datetime.datetime.timestamp(FROM_DATE))
-            if date_released_unix < FROM_DATE:
-                checkEnd = True
-                break
-
-            # Check if torrent belong to one of the user's shows
-            title = torrent["title"]
-            show = isInTitle(title)
-            if show is not None and ("1080" in title or "720" in title) and ("x264" in title or "x265" in title) and "MeGusta" in title:
-
-                # Check if episode is newer than the last
-                season, episode = int(torrent["season"]), int(torrent["episode"])
-                lastSeason, lastEpisode = getLastSeasonEpisode(show)
-                if (season == lastSeason and episode > lastEpisode) or (season > lastSeason):
-                    torrents[show] = {
-                        "title": title,
-                        "magnet_url": torrent["magnet_url"],
-                        "season": season,
-                        "episode": episode
-                    }
-
-        if checkEnd:
-            break
-        page += 1
+            # Check if episode is newer than the last
+            season, episode = int(torrent["season"]), int(torrent["episode"])
+            lastSeason, lastEpisode = getLastSeasonEpisode(show)
+            if (season == lastSeason and episode > lastEpisode) or (season > lastSeason):
+                torrents[show] = {
+                    "title": title,
+                    "magnet_url": torrent["magnet_url"],
+                    "season": season,
+                    "episode": episode
+                }
 
     return torrents
 
