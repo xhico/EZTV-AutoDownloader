@@ -99,7 +99,7 @@ def main():
         if torrent.progress == 100.0:
             print("Complete - " + torrent.name)
             TRANSMISSION.remove_torrent(torrent.id, delete_data=False)
-            YAGMAIL.send(EMAIL_RECEIVER, "Torrent Complete", torrent.name)
+            YAGMAIL.send(EMAIL_RECEIVER, "Torrent Complete - " + torrent.name, torrent.name)
 
 
 if __name__ == '__main__':
