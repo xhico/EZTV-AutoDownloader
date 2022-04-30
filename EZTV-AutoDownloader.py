@@ -24,18 +24,10 @@ def getConfig():
     return data
 
 
-def isInTitle(title):
-    for show in TVSHOWS:
-        if title.find(show) != -1:
-            return show
-    return None
-
-
-def getLastSeasonEpisode(title):
+def getLastSeasonEpisode(show):
     try:
-        show = CONFIG[title]
-        season = show["season"]
-        episode = show["episode"]
+        season = CONFIG[show]["season"]
+        episode = CONFIG[show]["episode"]
     except KeyError:
         season = 1
         episode = 1
@@ -43,24 +35,25 @@ def getLastSeasonEpisode(title):
 
 
 def getTorrents():
+    print("getTorrents")
     torrents = {}
 
-    # Download JSON
-    r = requests.get(API_URL)
-    jsonTorrents = json.loads(r.text)
+    # Iterate over every show
+    for show in TVSHOWS:
 
-    # Iterate over every torrent
-    for torrent in jsonTorrents["torrents"]:
-        # Check if torrent belong to one of the user's shows
+        # Download last episode JSON
+        r = requests.get(API_URL + CONFIG[show]["imdb_id"])
+        torrent = json.loads(r.text)["torrents"][0]
+
+        # Check if torrent is valid
         title = torrent["title"]
-        show = isInTitle(title)
-        if show is not None and ("1080" in title or "720" in title) and ("x264" in title or "x265" in title) and "MeGusta" in title:
-
+        if ("1080" in title) and ("x264" in title or "x265" in title) and "MeGusta" in title:
             # Check if episode is newer than the last
             season, episode = int(torrent["season"]), int(torrent["episode"])
             lastSeason, lastEpisode = getLastSeasonEpisode(show)
             if (season == lastSeason and episode > lastEpisode) or (season > lastSeason):
                 torrents[show] = {
+                    "imdb_id": torrent["imdb_id"],
                     "title": title,
                     "magnet_url": torrent["magnet_url"],
                     "season": season,
@@ -76,6 +69,7 @@ def main():
 
     # Iterate over every torrent
     for show, torrent in torrents.items():
+        imdb_id = torrent["imdb_id"]
         title = torrent["title"]
         magnet_url = torrent["magnet_url"]
         season = torrent["season"]
@@ -87,11 +81,11 @@ def main():
         YAGMAIL.send(EMAIL_RECEIVER, "Torrent Added - " + show, title)
 
         # Add to CONFIG
-        CONFIG[show] = {"season": season, "episode": episode}
+        CONFIG[show] = {"imdb_id": imdb_id, "season": season, "episode": episode}
 
     # Update CONFIG
     with open(CONFIG_FILE, 'w') as outfile:
-        json.dump(CONFIG, outfile, indent=4)
+        json.dump(CONFIG, outfile, indent=2)
 
     # Remove complete torrent
     torrents = TRANSMISSION.get_torrents()
@@ -105,7 +99,7 @@ def main():
 if __name__ == '__main__':
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     CONFIG_FILE = "config.json"
-    API_URL = "https://eztv.re/api/get-torrents"
+    API_URL = "https://eztv.re/api/get-torrents?imdb_id="
     CONFIG = getConfig()
     TVSHOWS = CONFIG.keys()
 
@@ -125,3 +119,4 @@ if __name__ == '__main__':
         main()
     except Exception as ex:
         YAGMAIL.send(EMAIL_RECEIVER, "Error - " + os.path.basename(__file__), str(ex))
+        print(ex)

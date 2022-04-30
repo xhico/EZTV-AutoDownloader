@@ -1,26 +1,32 @@
 {
   "Bull": {
+    "imdb_id": "5827228",
     "season": 6,
-    "episode": 14
+    "episode": 19
   },
   "Chicago Fire": {
+    "imdb_id": "2261391",
     "season": 10,
-    "episode": 16
+    "episode": 19
   },
   "Magnum P.I.": {
+    "imdb_id": "7942796",
     "season": 4,
-    "episode": 16
+    "episode": 19
   },
   "NCIS": {
+    "imdb_id": "0364845",
     "season": 19,
     "episode": 15
   },
   "NCIS: Los Angeles": {
+    "imdb_id": "1378167",
     "season": 13,
-    "episode": 11
+    "episode": 17
   },
   "Young Sheldon": {
+    "imdb_id": "6226232",
     "season": 5,
-    "episode": 16
+    "episode": 20
   }
 }
