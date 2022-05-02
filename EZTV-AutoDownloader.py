@@ -3,7 +3,6 @@
 
 # python3 -m pip install requests transmission-rpc yagmail
 
-import datetime
 import json
 import os
 
@@ -36,31 +35,35 @@ def getLastSeasonEpisode(show):
 
 def getTorrents():
     print("getTorrents")
-    torrents = {}
+    newTorrents = {}
 
     # Iterate over every show
     for show in TVSHOWS:
-
         # Download last episode JSON
         r = requests.get(API_URL + CONFIG[show]["imdb_id"])
-        torrent = json.loads(r.text)["torrents"][0]
+        torrents = json.loads(r.text)["torrents"]
+        lastSeason, lastEpisode = getLastSeasonEpisode(show)
 
-        # Check if torrent is valid
-        title = torrent["title"]
-        if ("1080" in title) and ("x264" in title or "x265" in title) and "MeGusta" in title:
-            # Check if episode is newer than the last
-            season, episode = int(torrent["season"]), int(torrent["episode"])
-            lastSeason, lastEpisode = getLastSeasonEpisode(show)
-            if (season == lastSeason and episode > lastEpisode) or (season > lastSeason):
-                torrents[show] = {
-                    "imdb_id": torrent["imdb_id"],
-                    "title": title,
-                    "magnet_url": torrent["magnet_url"],
-                    "season": season,
-                    "episode": episode
-                }
+        # Iterate over every torrent
+        for torrent in reversed(torrents):
+            title, season, episode = torrent["title"], int(torrent["season"]), int(torrent["episode"])
 
-    return torrents
+            # Check if torrent is valid
+            if ("1080" in title or "720" in title) and ("x264" in title or "x265" in title) and ("MeGusta" in title or "CAKES" in title):
+                # Check if episode is newer than the last
+                if (season == lastSeason and episode > lastEpisode) or (season > lastSeason):
+                    newTorrents[torrent["id"]] = {
+                        "show": show,
+                        "imdb_id": torrent["imdb_id"],
+                        "title": title,
+                        "magnet_url": torrent["magnet_url"],
+                        "season": season,
+                        "episode": episode
+                    }
+
+                    lastSeason, lastEpisode = season, episode
+
+    return newTorrents
 
 
 def main():
@@ -68,7 +71,8 @@ def main():
     torrents = getTorrents()
 
     # Iterate over every torrent
-    for show, torrent in torrents.items():
+    for torrent in torrents.values():
+        show = torrent["show"]
         imdb_id = torrent["imdb_id"]
         title = torrent["title"]
         magnet_url = torrent["magnet_url"]
