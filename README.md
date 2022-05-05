@@ -38,7 +38,7 @@ Manual
 ```
 python3 EZTV-AutoDownloader.py
 ```
-Crontab
+Crontab (every 30 mins)
 ```
 */30 * * * * python3 /home/pi/EZTV-AutoDownloader/EZTV-AutoDownloader.py
 ```
