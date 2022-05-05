@@ -16,28 +16,14 @@ Loads config from local file (Example bellow)
 ```
 {
   "Bull": {
+    "imdb_id": "5827228",
     "season": 6,
-    "episode": 14
+    "episode": 19
   },
   "Chicago Fire": {
+    "imdb_id": "2261391",
     "season": 10,
-    "episode": 16
-  },
-  "Magnum P.I.": {
-    "season": 4,
-    "episode": 16
-  },
-  "NCIS": {
-    "season": 19,
-    "episode": 15
-  },
-  "NCIS: Los Angeles": {
-    "season": 13,
-    "episode": 11
-  },
-  "Young Sheldon": {
-    "season": 5,
-    "episode": 16
+    "episode": 19
   }
 }
 ```
