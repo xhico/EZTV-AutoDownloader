@@ -49,7 +49,7 @@ def getTorrents():
             title, season, episode = torrent["title"], int(torrent["season"]), int(torrent["episode"])
 
             # Check if torrent is valid
-            if ("1080" in title or "720" in title) and ("x264" in title or "x265" in title or "H264" in title) and ("MeGusta" in title or "CAKES" in title or "GOSSIP" in title):
+            if "1080" in title and "x265" in title and "MeGusta" in title:
                 # Check if episode is newer than the last
                 if (season == lastSeason and episode > lastEpisode) or (season > lastSeason):
                     newTorrents[torrent["id"]] = {
@@ -112,7 +112,7 @@ if __name__ == '__main__':
     TRANSMISSION_PASS = get911('TRANSMISSION_PASS')
     TRANSMISSION_HOST = "localhost"
     TRANSMISSION = Client(host=TRANSMISSION_HOST, username=TRANSMISSION_USER, password=TRANSMISSION_PASS)
-
+    
     # Set email
     EMAIL_USER = get911('EMAIL_USER')
     EMAIL_APPPW = get911('EMAIL_APPPW')
