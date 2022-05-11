@@ -82,7 +82,10 @@ def main():
 
         # Add torrent to Transmission
         TRANSMISSION.add_torrent(magnet_url)
-        YAGMAIL.send(EMAIL_RECEIVER, "Torrent Added - " + show, title)
+        try:
+            YAGMAIL.send(EMAIL_RECEIVER, "Torrent Added - " + show, title)
+        except:
+            print("Couldn'not send ADDED email")
 
         # Add to CONFIG
         CONFIG[show] = {"imdb_id": imdb_id, "season": season, "episode": episode}
@@ -122,5 +125,9 @@ if __name__ == '__main__':
     try:
         main()
     except Exception as ex:
-        YAGMAIL.send(EMAIL_RECEIVER, "Error - " + os.path.basename(__file__), str(ex))
+        try:
+            YAGMAIL.send(EMAIL_RECEIVER, "Error - " + os.path.basename(__file__), str(ex))
+        except:
+            print("Couldn'not send ERROR email")
+        
         print(ex)
