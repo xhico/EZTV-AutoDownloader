@@ -49,7 +49,7 @@ def getTorrents():
             title, season, episode = torrent["title"], int(torrent["season"]), int(torrent["episode"])
 
             # Check if torrent is valid
-            if "1080" in title and "x265" in title and "MeGusta" in title:
+            if ("1080" in title or "720" in title) and ("x265" in title or "x264" in title) and "MeGusta" in title:
                 # Check if episode is newer than the last
                 if (season == lastSeason and episode > lastEpisode) or (season > lastSeason):
                     newTorrents[torrent["id"]] = {
