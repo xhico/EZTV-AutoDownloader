@@ -2,7 +2,7 @@
 # !/usr/bin/python3
 
 # python3 -m pip install requests transmission-rpc yagmail
-
+import datetime
 import json
 import os
 
@@ -104,6 +104,9 @@ def main():
 
 
 if __name__ == '__main__':
+    print("----------------------------------------------------")
+    print(str(datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S")))
+
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     CONFIG_FILE = "config.json"
     API_URL = "https://eztv.re/api/get-torrents?imdb_id="
@@ -115,7 +118,7 @@ if __name__ == '__main__':
     TRANSMISSION_PASS = get911('TRANSMISSION_PASS')
     TRANSMISSION_HOST = "localhost"
     TRANSMISSION = Client(host=TRANSMISSION_HOST, username=TRANSMISSION_USER, password=TRANSMISSION_PASS)
-    
+
     # Set email
     EMAIL_USER = get911('EMAIL_USER')
     EMAIL_APPPW = get911('EMAIL_APPPW')
@@ -129,5 +132,5 @@ if __name__ == '__main__':
             YAGMAIL.send(EMAIL_RECEIVER, "Error - " + os.path.basename(__file__), str(ex))
         except:
             print("Couldn'not send ERROR email")
-        
+
         print(ex)
