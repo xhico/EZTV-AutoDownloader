@@ -5,7 +5,7 @@
 import datetime
 import json
 import os
-
+import traceback
 import requests
 import yagmail
 from transmission_rpc import Client
@@ -128,9 +128,5 @@ if __name__ == '__main__':
     try:
         main()
     except Exception as ex:
-        try:
-            YAGMAIL.send(EMAIL_RECEIVER, "Error - " + os.path.basename(__file__), str(ex))
-        except:
-            print("Couldn'not send ERROR email")
-
-        print(ex)
+        print(traceback.format_exc())
+        yagmail.SMTP(EMAIL_USER, EMAIL_APPPW).send(EMAIL_RECEIVER, "Error - " + os.path.basename(__file__), str(traceback.format_exc()))
