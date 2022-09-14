@@ -39,17 +39,18 @@ def getTorrents():
 
     # Iterate over every show
     for show in TVSHOWS:
-        
+
         # Download last episode JSON
         try:
-            r = requests.get(API_URL + CONFIG[show]["imdb_id"])
-            torrents = json.loads(r.text)["torrents"]
-            lastSeason, lastEpisode = getLastSeasonEpisode(show)
+            print(API_URL + CONFIG[show]["imdb_id"])
+            r = requests.get(API_URL + CONFIG[show]["imdb_id"], timeout=10).json()
+            torrents = r["torrents"]
         except Exception as ex:
             print("Failed to download show")
             continue
 
         # Iterate over every torrent
+        lastSeason, lastEpisode = getLastSeasonEpisode(show)
         for torrent in reversed(torrents):
             title, season, episode = torrent["title"], int(torrent["season"]), int(torrent["episode"])
 
