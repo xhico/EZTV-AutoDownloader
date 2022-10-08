@@ -10,14 +10,10 @@ import traceback
 import requests
 import yagmail
 import logging
+import base64
 from transmission_rpc import Client
-
-
-def get911(key):
-    with open('/home/pi/.911') as f:
-        data = json.load(f)
-    return data[key]
-
+from Misc import get911
+    
 
 def getConfig():
     with open(CONFIG_FILE) as f:
