@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 # !/usr/bin/python3
 
-# python3 -m pip install requests transmission-rpc yagmail
+# python3 -m pip install requests yagmail transmission-rpc yagmail --no-cache-dir
+
 import datetime
 import json
 import os
 import traceback
 import requests
 import yagmail
+import logging
 from transmission_rpc import Client
 
 
@@ -34,7 +36,7 @@ def getLastSeasonEpisode(show):
 
 
 def getTorrents():
-    print("getTorrents")
+    logger.info("getTorrents")
     newTorrents = {}
 
     # Iterate over every show
@@ -42,11 +44,11 @@ def getTorrents():
 
         # Download last episode JSON
         try:
-            print(API_URL + CONFIG[show]["imdb_id"])
+            logger.info(API_URL + CONFIG[show]["imdb_id"])
             r = requests.get(API_URL + CONFIG[show]["imdb_id"], timeout=10).json()
             torrents = r["torrents"]
         except Exception as ex:
-            print("Failed to download show")
+            logger.error("Failed to download show")
             continue
 
         # Iterate over every torrent
@@ -84,14 +86,14 @@ def main():
         magnet_url = torrent["magnet_url"]
         season = torrent["season"]
         episode = torrent["episode"]
-        print(title)
+        logger.info(title)
 
         # Add torrent to Transmission
         TRANSMISSION.add_torrent(magnet_url)
         try:
             YAGMAIL.send(EMAIL_RECEIVER, "Torrent Added - " + show, title)
         except:
-            print("Couldn'not send ADDED email")
+            logger.error("Couldn'not send ADDED email")
 
         # Add to CONFIG
         CONFIG[show] = {"imdb_id": imdb_id, "season": season, "episode": episode}
@@ -104,17 +106,20 @@ def main():
     torrents = TRANSMISSION.get_torrents()
     for torrent in torrents:
         if torrent.progress == 100.0:
-            print("Complete - " + torrent.name)
+            logger.info("Complete - " + torrent.name)
             TRANSMISSION.remove_torrent(torrent.id, delete_data=False)
             YAGMAIL.send(EMAIL_RECEIVER, "Torrent Complete - " + torrent.name, torrent.name)
 
 
 if __name__ == '__main__':
-    print("----------------------------------------------------")
-    print(str(datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S")))
+    # Set Logging
+    LOG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.path.abspath(__file__).replace(".py", ".log"))
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s", handlers=[logging.FileHandler(LOG_FILE), logging.StreamHandler()])
+    logger = logging.getLogger()
 
-    os.chdir(os.path.dirname(os.path.abspath(__file__)))
-    CONFIG_FILE = "config.json"
+    logger.info("----------------------------------------------------")
+
+    CONFIG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.json")
     API_URL = "https://eztv.re/api/get-torrents?imdb_id="
     CONFIG = getConfig()
     TVSHOWS = CONFIG.keys()
@@ -136,5 +141,7 @@ if __name__ == '__main__':
     try:
         main()
     except Exception as ex:
-        print(traceback.format_exc())
+        logger.error(traceback.format_exc())
         yagmail.SMTP(EMAIL_USER, EMAIL_APPPW).send(EMAIL_RECEIVER, "Error - " + os.path.basename(__file__), str(traceback.format_exc()))
+    finally:
+        logger.info("End")
