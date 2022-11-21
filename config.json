@@ -7,7 +7,7 @@
   "Chicago Fire": {
     "imdb_id": "2261391",
     "season": 11,
-    "episode": 8
+    "episode": 4
   },
   "Magnum P.I.": {
     "imdb_id": "7942796",
@@ -17,17 +17,17 @@
   "NCIS": {
     "imdb_id": "0364845",
     "season": 20,
-    "episode": 7
+    "episode": 4
   },
   "NCIS: Los Angeles": {
     "imdb_id": "1378167",
     "season": 14,
-    "episode": 6
+    "episode": 2
   },
   "Young Sheldon": {
     "imdb_id": "6226232",
     "season": 6,
-    "episode": 7
+    "episode": 3
   },
   "Star Trek: Strange New Worlds": {
     "imdb_id": "12327578",
@@ -37,11 +37,6 @@
   "Richard Hammonds Workshop": {
     "imdb_id": "14906022",
     "season": 2,
-    "episode": 5
-  },
-  "The Sex Lives of College Girls": {
-    "imdb_id": "11212276",
-    "season": 2,
-    "episode": 2
+    "episode": 0
   }
 }
