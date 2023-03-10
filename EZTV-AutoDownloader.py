@@ -3,17 +3,15 @@
 
 # python3 -m pip install requests yagmail transmission-rpc yagmail --no-cache-dir
 
-import datetime
 import json
 import os
 import traceback
 import requests
 import yagmail
 import logging
-import base64
 from transmission_rpc import Client
 from Misc import get911
-    
+
 
 def getConfig():
     with open(CONFIG_FILE) as f:
