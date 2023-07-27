@@ -1,0 +1,12 @@
+[Unit]
+Description=EZTV-AutoDownloader Service
+After=network.target
+
+[Service]
+User=pi
+WorkingDirectory=/home/pi/EZTV-AutoDownloader/
+ExecStart=/usr/bin/python3 /home/pi/EZTV-AutoDownloader/EZTV-AutoDownloader.py
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
