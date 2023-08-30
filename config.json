@@ -1,42 +1,37 @@
 {
-  "Bull": {
-    "imdb_id": "5827228",
-    "season": 6,
-    "episode": 22
-  },
   "Chicago Fire": {
     "imdb_id": "2261391",
     "season": 11,
-    "episode": 4
+    "episode": 22
   },
   "Magnum P.I.": {
     "imdb_id": "7942796",
-    "season": 4,
-    "episode": 20
+    "season": 5,
+    "episode": 10
   },
   "NCIS": {
     "imdb_id": "0364845",
     "season": 20,
-    "episode": 4
+    "episode": 22
   },
   "NCIS: Los Angeles": {
     "imdb_id": "1378167",
     "season": 14,
-    "episode": 2
+    "episode": 21
   },
   "Young Sheldon": {
     "imdb_id": "6226232",
     "season": 6,
-    "episode": 3
+    "episode": 22
   },
   "Star Trek: Strange New Worlds": {
     "imdb_id": "12327578",
-    "season": 1,
+    "season": 2,
     "episode": 10
   },
   "Richard Hammonds Workshop": {
     "imdb_id": "14906022",
     "season": 2,
-    "episode": 0
+    "episode": 10
   }
 }

@@ -8,7 +8,7 @@ import requests
 import yagmail
 import logging
 from transmission_rpc import Client
-from Misc import get911
+from Misc import get911, sendErrorEmail
 
 
 def getConfig():
@@ -173,6 +173,6 @@ if __name__ == '__main__':
         main()
     except Exception as ex:
         logger.error(traceback.format_exc())
-        YAGMAIL.send(EMAIL_RECEIVER, "Error - " + os.path.basename(__file__), str(traceback.format_exc()))
+        sendErrorEmail(os.path.basename(__file__), str(traceback.format_exc()))
     finally:
         logger.info("End")
