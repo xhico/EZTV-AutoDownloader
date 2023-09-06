@@ -1,0 +1,30 @@
+{
+  "Chicago Fire": {
+    "season": 11,
+    "episode": 22
+  },
+  "Magnum P.I.": {
+    "season": 5,
+    "episode": 10
+  },
+  "NCIS": {
+    "season": 20,
+    "episode": 22
+  },
+  "NCIS: Los Angeles": {
+    "season": 14,
+    "episode": 21
+  },
+  "Young Sheldon": {
+    "season": 6,
+    "episode": 22
+  },
+  "Star Trek: Strange New Worlds": {
+    "season": 2,
+    "episode": 10
+  },
+  "Richard Hammonds Workshop": {
+    "season": 2,
+    "episode": 10
+  }
+}
