@@ -5,10 +5,9 @@ import json
 import os
 import traceback
 import requests
-import yagmail
 import logging
 from transmission_rpc import Client
-from Misc import get911, sendErrorEmail
+from Misc import get911, sendEmail
 
 
 def getLastSeasonEpisode(show):
@@ -40,6 +39,7 @@ def getTorrents():
     """
     logger.info("getTorrents")
     newTorrents = {}
+    API_URL = "https://eztv.re/api/get-torrents?imdb_id="
 
     # Iterate over every show
     for show in CONFIG.keys():
@@ -104,10 +104,7 @@ def main():
 
         # Add torrent to Transmission
         TRANSMISSION.add_torrent(magnet_url)
-        try:
-            YAGMAIL.send(EMAIL_RECEIVER, "Torrent Added - " + show, title)
-        except:
-            logger.error("Couldn't send ADDED email")
+        sendEmail("Torrent Added - " + show, title)
 
         # Add to CONFIG
         CONFIG[show] = {"season": season, "episode": episode}
@@ -122,7 +119,7 @@ def main():
         if torrent.progress == 100.0:
             logger.info("Complete - " + torrent.name)
             TRANSMISSION.remove_torrent(torrent.id, delete_data=False)
-            YAGMAIL.send(EMAIL_RECEIVER, "Torrent Complete - " + torrent.name, torrent.name)
+            sendEmail("Torrent Complete - " + torrent.name, torrent.name)
 
 
 if __name__ == '__main__':
@@ -141,24 +138,16 @@ if __name__ == '__main__':
     with open(SAVED_INFO_FILE) as inFile:
         SAVED_INFO = json.load(inFile)
 
-    API_URL = "https://eztv.re/api/get-torrents?imdb_id="
-
     # Set Transmission
     TRANSMISSION_HOST = get911('TRANSMISSION_HOST')
     TRANSMISSION_PORT = get911('TRANSMISSION_PORT')
     TRANSMISSION_PATH = get911('TRANSMISSION_PATH') + "rpc"
     TRANSMISSION = Client(host=TRANSMISSION_HOST, port=TRANSMISSION_PORT, path=TRANSMISSION_PATH)
 
-    # Set email
-    EMAIL_USER = get911('EMAIL_USER')
-    EMAIL_APPPW = get911('EMAIL_APPPW')
-    EMAIL_RECEIVER = get911('EMAIL_RECEIVER')
-    YAGMAIL = yagmail.SMTP(EMAIL_USER, EMAIL_APPPW)
-
     try:
         main()
     except Exception as ex:
         logger.error(traceback.format_exc())
-        sendErrorEmail(os.path.basename(__file__), str(traceback.format_exc()))
+        sendEmail(os.path.basename(__file__), str(traceback.format_exc()))
     finally:
         logger.info("End")
