@@ -107,7 +107,7 @@ def main():
         sendEmail("Torrent Added - " + show, title)
 
         # Add to CONFIG
-        CONFIG[show] = {"season": season, "episode": episode}
+        SAVED_INFO[show] = {"season": season, "episode": episode}
 
     # Update SAVED_INFO
     with open(SAVED_INFO_FILE, 'w') as outfile:
