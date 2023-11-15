@@ -43,7 +43,6 @@ def getTorrents():
 
     # Iterate over every show
     shows = [show for show in CONFIG.keys()]
-    shows = [shows[-1]]
     for show in shows:
 
         # Download last episode JSON
