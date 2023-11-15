@@ -1,23 +1,98 @@
 {
   "Chicago Fire": {
-    "imdb_id": "2261391"
+    "imdb_id": "2261391",
+    "authors": [
+      "MeGusta"
+    ],
+    "qualities": [
+      "720",
+      "1080"
+    ],
+    "codecs": [
+      "x264",
+      "x265"
+    ]
   },
   "Magnum P.I.": {
-    "imdb_id": "7942796"
+    "imdb_id": "7942796",
+    "authors": [
+      "MeGusta"
+    ],
+    "qualities": [
+      "720",
+      "1080"
+    ],
+    "codecs": [
+      "x264",
+      "x265"
+    ]
   },
   "NCIS": {
-    "imdb_id": "0364845"
+    "imdb_id": "0364845",
+    "authors": [
+      "MeGusta"
+    ],
+    "qualities": [
+      "720",
+      "1080"
+    ],
+    "codecs": [
+      "x264",
+      "x265"
+    ]
   },
-  "NCIS: Los Angeles": {
-    "imdb_id": "1378167"
+  "NCIS Sydney": {
+    "imdb_id": "18258908",
+    "authors": [
+      "MeGusta"
+    ],
+    "qualities": [
+      "720",
+      "1080"
+    ],
+    "codecs": [
+      "x264",
+      "x265"
+    ]
   },
   "Young Sheldon": {
-    "imdb_id": "6226232"
+    "imdb_id": "6226232",
+    "authors": [
+      "MeGusta"
+    ],
+    "qualities": [
+      "720",
+      "1080"
+    ],
+    "codecs": [
+      "x264",
+      "x265"
+    ]
   },
   "Star Trek: Strange New Worlds": {
-    "imdb_id": "12327578"
+    "imdb_id": "12327578",
+    "authors": [
+      "MeGusta"
+    ],
+    "qualities": [
+      "720",
+      "1080"
+    ],
+    "codecs": [
+      "x264",
+      "x265"
+    ]
   },
   "Richard Hammonds Workshop": {
-    "imdb_id": "14906022"
+    "imdb_id": "14906022",
+    "authors": [
+      "MeGusta",
+      "XEN0N"
+    ],
+    "qualities": [],
+    "codecs": [
+      "x264",
+      "x265"
+    ]
   }
 }

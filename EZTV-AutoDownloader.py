@@ -42,12 +42,15 @@ def getTorrents():
     API_URL = "https://eztv.re/api/get-torrents?imdb_id="
 
     # Iterate over every show
-    for show in CONFIG.keys():
+    shows = [show for show in CONFIG.keys()]
+    shows = [shows[-1]]
+    for show in shows:
 
         # Download last episode JSON
         try:
             # Send GET request to API_URL with the imdb_id of the show.
             # Timeout is set to 10 seconds.
+            logger.info(show)
             logger.info(API_URL + CONFIG[show]["imdb_id"])
             r = requests.get(API_URL + CONFIG[show]["imdb_id"], timeout=10).json()
             torrents = r["torrents"]
@@ -63,7 +66,11 @@ def getTorrents():
             title, season, episode = torrent["title"], int(torrent["season"]), int(torrent["episode"])
 
             # Check if torrent is valid
-            if ("1080" in title or "720" in title) and ("x265" in title or "x264" in title):
+            hasAuthors = any([author in title for author in CONFIG[show]["authors"]]) if len(CONFIG[show]["authors"]) != 0 else True
+            hasQualities = any([quality in title for quality in CONFIG[show]["qualities"]]) if len(CONFIG[show]["qualities"]) != 0 else True
+            hasCodecs = any([codec in title for codec in CONFIG[show]["codecs"]]) if len(CONFIG[show]["codecs"]) != 0 else True
+            if hasAuthors and hasQualities and hasCodecs:
+
                 # Check if episode is newer than the last
                 if (season == lastSeason and episode > lastEpisode) or (season > lastSeason):
                     # If the torrent meets the criteria, add it to the newTorrents dictionary.
@@ -148,6 +155,6 @@ if __name__ == '__main__':
         main()
     except Exception as ex:
         logger.error(traceback.format_exc())
-        sendEmail(os.path.basename(__file__), str(traceback.format_exc()))
+        # sendEmail(os.path.basename(__file__), str(traceback.format_exc()))
     finally:
         logger.info("End")
