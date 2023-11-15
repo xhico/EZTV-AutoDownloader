@@ -155,6 +155,6 @@ if __name__ == '__main__':
         main()
     except Exception as ex:
         logger.error(traceback.format_exc())
-        # sendEmail(os.path.basename(__file__), str(traceback.format_exc()))
+        sendEmail(os.path.basename(__file__), str(traceback.format_exc()))
     finally:
         logger.info("End")
