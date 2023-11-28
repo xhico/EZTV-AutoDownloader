@@ -39,7 +39,7 @@ def getTorrents():
     """
     logger.info("getTorrents")
     newTorrents = {}
-    API_URL = "https://eztv.re/api/get-torrents?imdb_id="
+    API_URL = "https://eztv.li/api/get-torrents?imdb_id="
 
     # Iterate over every show
     shows = [show for show in CONFIG.keys()]
