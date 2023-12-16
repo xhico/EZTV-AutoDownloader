@@ -39,19 +39,17 @@ def getTorrents():
     """
     logger.info("getTorrents")
     newTorrents = {}
-    API_URL = "https://eztvx.to/api/get-torrents?imdb_id="
+    API_URL = EZTV_URL + "api/get-torrents?imdb_id="
 
     # Iterate over every show
-    shows = [show for show in CONFIG.keys()]
-    for show in shows:
+    for show in CONFIG["SHOWS"]:
 
         # Download last episode JSON
         try:
             # Send GET request to API_URL with the imdb_id of the show.
             # Timeout is set to 10 seconds.
-            logger.info(show)
-            logger.info(API_URL + CONFIG[show]["imdb_id"])
-            r = requests.get(API_URL + CONFIG[show]["imdb_id"], timeout=10).json()
+            logger.info(API_URL + show["imdb_id"])
+            r = requests.get(API_URL + show["imdb_id"], timeout=10).json()
             torrents = r["torrents"]
         except Exception as ex:
             # If there is an error, log it and move on to the next show.
@@ -60,21 +58,21 @@ def getTorrents():
             continue
 
         # Iterate over every torrent
-        lastSeason, lastEpisode = getLastSeasonEpisode(show)
+        lastSeason, lastEpisode = getLastSeasonEpisode(show["name"])
         for torrent in reversed(torrents):
             title, season, episode = torrent["title"], int(torrent["season"]), int(torrent["episode"])
 
             # Check if torrent is valid
-            hasAuthors = any([author in title for author in CONFIG[show]["authors"]]) if len(CONFIG[show]["authors"]) != 0 else True
-            hasQualities = any([quality in title for quality in CONFIG[show]["qualities"]]) if len(CONFIG[show]["qualities"]) != 0 else True
-            hasCodecs = any([codec in title for codec in CONFIG[show]["codecs"]]) if len(CONFIG[show]["codecs"]) != 0 else True
+            hasAuthors = any([author in title for author in show["authors"]]) if len(show["authors"]) != 0 else True
+            hasQualities = any([quality in title for quality in show["qualities"]]) if len(show["qualities"]) != 0 else True
+            hasCodecs = any([codec in title for codec in show["codecs"]]) if len(show["codecs"]) != 0 else True
             if hasAuthors and hasQualities and hasCodecs:
 
                 # Check if episode is newer than the last
                 if (season == lastSeason and episode > lastEpisode) or (season > lastSeason):
                     # If the torrent meets the criteria, add it to the newTorrents dictionary.
                     newTorrents[torrent["id"]] = {
-                        "show": show,
+                        "show": show["name"],
                         "imdb_id": torrent["imdb_id"],
                         "title": title,
                         "magnet_url": torrent["magnet_url"],
@@ -145,10 +143,13 @@ if __name__ == '__main__':
         SAVED_INFO = json.load(inFile)
 
     # Set Transmission
-    TRANSMISSION_HOST = get911('TRANSMISSION_HOST')
-    TRANSMISSION_PORT = get911('TRANSMISSION_PORT')
-    TRANSMISSION_PATH = get911('TRANSMISSION_PATH') + "rpc"
+    TRANSMISSION_HOST = get911("TRANSMISSION_HOST")
+    TRANSMISSION_PORT = get911("TRANSMISSION_PORT")
+    TRANSMISSION_PATH = get911("TRANSMISSION_PATH") + "rpc"
     TRANSMISSION = Client(host=TRANSMISSION_HOST, port=TRANSMISSION_PORT, path=TRANSMISSION_PATH)
+
+    # Set EZTZ URL
+    EZTV_URL = CONFIG["EZTV_URL"] + "/" if not CONFIG["EZTV_URL"].endswith("/") else CONFIG["EZTV_URL"]
 
     try:
         main()
