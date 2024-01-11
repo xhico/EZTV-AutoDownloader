@@ -139,6 +139,11 @@ if __name__ == '__main__':
     SAVED_INFO_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "saved_info.json")
     with open(CONFIG_FILE) as inFile:
         CONFIG = json.load(inFile)
+
+    # Check if SAVED_INFO exists
+    if not os.path.exists(SAVED_INFO_FILE):
+        with open(SAVED_INFO_FILE, 'w') as outfile:
+            json.dump({}, outfile, indent=2)
     with open(SAVED_INFO_FILE) as inFile:
         SAVED_INFO = json.load(inFile)
 
