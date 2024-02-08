@@ -6,7 +6,7 @@ import os
 import traceback
 import requests
 import logging
-from transmission_rpc import Client
+import qbittorrentapi
 from Misc import get911, sendEmail
 
 
@@ -37,7 +37,6 @@ def getTorrents():
     Returns:
         A dictionary containing information about the new torrents, with each key being the torrent ID.
     """
-    logger.info("getTorrents")
     newTorrents = {}
     API_URL = EZTV_URL + "api/get-torrents?imdb_id="
 
@@ -94,7 +93,11 @@ def main():
     Returns:
         None
     """
+    QBITTORRENT = qbittorrentapi.Client(**{"host": QBITTORRENT_HOST, "port": QBITTORRENT_PORT, "username": QBITTORRENT_USER, "password": QBITTORRENT_PASS})
+    QBITTORRENT.auth_log_in()
+
     # Get newest torrent
+    logging.info("Get newest torrent")
     torrents = getTorrents()
 
     # Iterate over every torrent
@@ -107,7 +110,7 @@ def main():
         logger.info(title)
 
         # Add torrent to Transmission
-        TRANSMISSION.add_torrent(magnet_url)
+        QBITTORRENT.torrents_add(urls=magnet_url)
         sendEmail("Torrent Added - " + show, title)
 
         # Add to CONFIG
@@ -118,12 +121,16 @@ def main():
         json.dump(SAVED_INFO, outfile, indent=2)
 
     # Remove complete torrent
-    torrents = TRANSMISSION.get_torrents()
+    logging.info("Remove complete torrent")
+    torrents = QBITTORRENT.torrents_info(status_filter="completed")
     for torrent in torrents:
-        if torrent.progress == 100.0:
-            logger.info("Complete - " + torrent.name)
-            TRANSMISSION.remove_torrent(torrent.id, delete_data=False)
-            sendEmail("Torrent Complete - " + torrent.name, torrent.name)
+        torrentName, torrentHash = torrent["name"], torrent["hash"]
+        logger.info("Complete - " + torrentName)
+        QBITTORRENT.torrents.delete(torrent_hashes=torrentHash)
+        sendEmail("Torrent Complete - " + torrentName, torrentName)
+
+    # Logout
+    QBITTORRENT.auth_log_out()
 
 
 if __name__ == '__main__':
@@ -147,11 +154,11 @@ if __name__ == '__main__':
     with open(SAVED_INFO_FILE) as inFile:
         SAVED_INFO = json.load(inFile)
 
-    # Set Transmission
-    TRANSMISSION_HOST = get911("TRANSMISSION_HOST")
-    TRANSMISSION_PORT = get911("TRANSMISSION_PORT")
-    TRANSMISSION_PATH = get911("TRANSMISSION_PATH") + "rpc"
-    TRANSMISSION = Client(host=TRANSMISSION_HOST, port=TRANSMISSION_PORT, path=TRANSMISSION_PATH)
+    # Set QBITTORRENT
+    QBITTORRENT_HOST = get911("QBITTORRENT_HOST")
+    QBITTORRENT_PORT = get911("QBITTORRENT_PORT")
+    QBITTORRENT_USER = get911("QBITTORRENT_USER")
+    QBITTORRENT_PASS = get911("QBITTORRENT_PASS")
 
     # Set EZTZ URL
     EZTV_URL = CONFIG["EZTV_URL"] + "/" if not CONFIG["EZTV_URL"].endswith("/") else CONFIG["EZTV_URL"]

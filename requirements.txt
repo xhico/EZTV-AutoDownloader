@@ -1,2 +1,2 @@
 requests
-transmission-rpc
+qbittorrent-api
