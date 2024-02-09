@@ -37,7 +37,6 @@ def getTorrents():
     Returns:
         A dictionary containing information about the new torrents, with each key being the torrent ID.
     """
-    logger.info("getTorrents")
     newTorrents = {}
     API_URL = EZTV_URL + "api/get-torrents?imdb_id="
 
@@ -95,6 +94,7 @@ def main():
         None
     """
     # Get newest torrent
+    logger.info("Get newest torrent")
     torrents = getTorrents()
 
     # Iterate over every torrent
@@ -118,6 +118,7 @@ def main():
         json.dump(SAVED_INFO, outfile, indent=2)
 
     # Remove complete torrent
+    logger.info("Remove complete torrent")
     torrents = TRANSMISSION.get_torrents()
     for torrent in torrents:
         if torrent.progress == 100.0:
