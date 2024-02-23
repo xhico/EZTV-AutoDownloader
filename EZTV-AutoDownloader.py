@@ -2,12 +2,13 @@
 # !/usr/bin/python3
 
 import json
+import logging
 import os
 import traceback
+
 import requests
-import logging
-from transmission_rpc import Client
 from Misc import get911, sendEmail
+from transmission_rpc import Client
 
 
 def getLastSeasonEpisode(show):
@@ -118,7 +119,7 @@ def main():
         json.dump(SAVED_INFO, outfile, indent=2)
 
     # Remove complete torrent
-    logger.info("Remove complete torrent")
+    logger.info("Remove completed torrent")
     torrents = TRANSMISSION.get_torrents()
     for torrent in torrents:
         if torrent.progress == 100.0:
