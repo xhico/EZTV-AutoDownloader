@@ -5,14 +5,16 @@ Auto Downloader from EZTV
 Transmission-Remote Manager
 
 ## Features
+
 * Automatic download from EZTV
 * Check Episode and Season to see if ep is newer
 * Remove torrent from Transmission if Completed
 * Email notifications on add and complete.
 
-
 ## Config
+
 Loads config from local file (Example bellow)
+
 ```
 {
   "Bull": {
@@ -29,16 +31,21 @@ Loads config from local file (Example bellow)
 ```
 
 ## Installation
+
 ```
 python3 -m pip install requests transmission-rpc yagmail
 ```
 
 ## Usage
+
 Manual
+
 ```
 python3 EZTV-AutoDownloader.py
 ```
+
 Crontab (every 30 mins)
+
 ```
 */30 * * * * python3 /home/pi/EZTV-AutoDownloader/EZTV-AutoDownloader.py
 ```
