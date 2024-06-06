@@ -1,108 +1,142 @@
 {
-  "EZTV_URL": "https://eztvx.to/",
-  "SHOWS": [
-    {
-      "imdb_id": "2261391",
-      "authors": [
-        "MeGusta"
-      ],
-      "qualities": [
-        "720",
-        "1080"
-      ],
-      "codecs": [
-        "x264",
-        "x265"
-      ],
-      "name": "Chicago Fire"
-    },
-    {
-      "imdb_id": "7942796",
-      "authors": [
-        "MeGusta"
-      ],
-      "qualities": [
-        "720",
-        "1080"
-      ],
-      "codecs": [
-        "x264",
-        "x265"
-      ],
-      "name": "Magnum P.I."
-    },
-    {
-      "imdb_id": "0364845",
-      "authors": [
-        "MeGusta"
-      ],
-      "qualities": [
-        "720",
-        "1080"
-      ],
-      "codecs": [
-        "x264",
-        "x265"
-      ],
-      "name": "NCIS"
-    },
-    {
-      "imdb_id": "18258908",
-      "authors": [
-        "MeGusta"
-      ],
-      "qualities": [
-        "720",
-        "1080"
-      ],
-      "codecs": [
-        "x264",
-        "x265"
-      ],
-      "name": "NCIS Sydney"
-    },
-    {
-      "imdb_id": "6226232",
-      "authors": [
-        "MeGusta"
-      ],
-      "qualities": [
-        "720",
-        "1080"
-      ],
-      "codecs": [
-        "x264",
-        "x265"
-      ],
-      "name": "Young Sheldon"
-    },
-    {
-      "imdb_id": "12327578",
-      "authors": [
-        "MeGusta"
-      ],
-      "qualities": [
-        "720",
-        "1080"
-      ],
-      "codecs": [
-        "x264",
-        "x265"
-      ],
-      "name": "Star Trek: Strange New Worlds"
-    },
-    {
-      "imdb_id": "14906022",
-      "authors": [
-        "MeGusta",
-        "XEN0N"
-      ],
-      "qualities": [],
-      "codecs": [
-        "x264",
-        "x265"
-      ],
-      "name": "Richard Hammonds Workshop"
-    }
-  ]
+    "EZTV_URL": "https://eztvx.to/",
+    "SHOWS": [
+        {
+            "imdb_id": "2261391",
+            "authors": [
+                "MeGusta"
+            ],
+            "qualities": [
+                "720",
+                "1080"
+            ],
+            "codecs": [
+                "x264",
+                "x265"
+            ],
+            "name": "Chicago Fire"
+        },
+        {
+            "imdb_id": "7942796",
+            "authors": [
+                "MeGusta"
+            ],
+            "qualities": [
+                "720",
+                "1080"
+            ],
+            "codecs": [
+                "x264",
+                "x265"
+            ],
+            "name": "Magnum P.I."
+        },
+        {
+            "imdb_id": "0364845",
+            "authors": [
+                "MeGusta",
+                "SYNCOPY"
+            ],
+            "qualities": [
+                "720",
+                "1080"
+            ],
+            "codecs": [
+                "x264",
+                "x265"
+            ],
+            "name": "NCIS"
+        },
+        {
+            "imdb_id": "18258908",
+            "authors": [
+                "MeGusta"
+            ],
+            "qualities": [
+                "720",
+                "1080"
+            ],
+            "codecs": [
+                "x264",
+                "x265"
+            ],
+            "name": "NCIS Sydney"
+        },
+        {
+            "imdb_id": "6226232",
+            "authors": [
+                "MeGusta"
+            ],
+            "qualities": [
+                "720",
+                "1080"
+            ],
+            "codecs": [
+                "x264",
+                "x265"
+            ],
+            "name": "Young Sheldon"
+        },
+        {
+            "imdb_id": "12327578",
+            "authors": [
+                "MeGusta"
+            ],
+            "qualities": [
+                "720",
+                "1080"
+            ],
+            "codecs": [
+                "x264",
+                "x265"
+            ],
+            "name": "Star Trek: Strange New Worlds"
+        },
+        {
+            "imdb_id": "14906022",
+            "authors": [
+                "MeGusta",
+                "XEN0N"
+            ],
+            "qualities": [
+                "720",
+                "1080"
+            ],
+            "codecs": [
+                "x264",
+                "x265"
+            ],
+            "name": "Richard Hammonds Workshop"
+        },
+        {
+            "imdb_id": "7587890",
+            "authors": [
+                "MeGusta"
+            ],
+            "qualities": [
+                "720",
+                "1080"
+            ],
+            "codecs": [
+                "x264",
+                "x265"
+            ],
+            "name": "The Rookie"
+        },
+        {
+            "imdb_id": "0452046",
+            "authors": [
+                "MeGusta"
+            ],
+            "qualities": [
+                "720",
+                "1080"
+            ],
+            "codecs": [
+                "x264",
+                "x265"
+            ],
+            "name": "Criminal Minds"
+        }
+    ]
 }

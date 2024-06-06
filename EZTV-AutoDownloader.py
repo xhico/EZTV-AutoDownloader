@@ -6,8 +6,8 @@ import logging
 import os
 import traceback
 
+import Misc
 import requests
-from Misc import get911, sendEmail
 from transmission_rpc import Client
 
 
@@ -109,7 +109,7 @@ def main():
 
         # Add torrent to Transmission
         TRANSMISSION.add_torrent(magnet_url)
-        sendEmail("Torrent Added - " + show, title)
+        Misc.sendEmail("Torrent Added - " + show, title)
 
         # Add to CONFIG
         SAVED_INFO[show] = {"season": season, "episode": episode}
@@ -125,7 +125,7 @@ def main():
         if torrent.progress == 100.0:
             logger.info("Complete - " + torrent.name)
             TRANSMISSION.remove_torrent(torrent.id, delete_data=False)
-            sendEmail("Torrent Complete - " + torrent.name, torrent.name)
+            Misc.sendEmail("Torrent Complete - " + torrent.name, torrent.name)
 
 
 if __name__ == '__main__':
@@ -150,10 +150,12 @@ if __name__ == '__main__':
         SAVED_INFO = json.load(inFile)
 
     # Set Transmission
-    TRANSMISSION_HOST = get911("TRANSMISSION_HOST")
-    TRANSMISSION_PORT = get911("TRANSMISSION_PORT")
-    TRANSMISSION_PATH = get911("TRANSMISSION_PATH") + "rpc"
-    TRANSMISSION = Client(host=TRANSMISSION_HOST, port=TRANSMISSION_PORT, path=TRANSMISSION_PATH)
+    TRANSMISSION_HOST = Misc.get911("TRANSMISSION_HOST")
+    TRANSMISSION_PORT = Misc.get911("TRANSMISSION_PORT")
+    TRANSMISSION_PATH = Misc.get911("TRANSMISSION_PATH") + "rpc"
+    TRANSMISSION_USER = Misc.get911("TRANSMISSION_USER")
+    TRANSMISSION_PASS = Misc.get911("TRANSMISSION_PASS")
+    TRANSMISSION = Client(host=TRANSMISSION_HOST, port=TRANSMISSION_PORT, path=TRANSMISSION_PATH, username=TRANSMISSION_USER, password=TRANSMISSION_PASS)
 
     # Set EZTZ URL
     EZTV_URL = CONFIG["EZTV_URL"] + "/" if not CONFIG["EZTV_URL"].endswith("/") else CONFIG["EZTV_URL"]
@@ -162,6 +164,6 @@ if __name__ == '__main__':
         main()
     except Exception as ex:
         logger.error(traceback.format_exc())
-        sendEmail(os.path.basename(__file__), str(traceback.format_exc()))
+        Misc.sendEmail(os.path.basename(__file__), str(traceback.format_exc()))
     finally:
         logger.info("End")

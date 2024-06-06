@@ -5,7 +5,7 @@ After=network.target
 [Service]
 User=pi
 WorkingDirectory=/home/pi/EZTV-AutoDownloader/
-ExecStart=/usr/bin/python3 /home/pi/EZTV-AutoDownloader/EZTV-AutoDownloader.py
+ExecStart=/home/pi/EZTV-AutoDownloader/venv/bin/python3 /home/pi/EZTV-AutoDownloader/EZTV-AutoDownloader.py
 Restart=on-failure
 
 [Install]
